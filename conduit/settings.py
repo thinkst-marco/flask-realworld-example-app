@@ -19,23 +19,35 @@ class Config(object):
     CORS_ORIGIN_WHITELIST = [
         'http://0.0.0.0:4100',
         'http://localhost:4100',
+        'http://0.0.0.0:8080',
+        'http://localhost:8080',
         'http://0.0.0.0:8000',
         'http://localhost:8000',
         'http://0.0.0.0:4200',
         'http://localhost:4200',
         'http://0.0.0.0:4000',
         'http://localhost:4000',
+        'http://13.245.179.217:5000'
+        'http://0.0.0.0:5000',
+        'http://localhost:5000',
+        'http://13.245.179.217:8080',
     ]
     JWT_HEADER_TYPE = 'Token'
 
 
 class ProdConfig(Config):
     """Production configuration."""
-
     ENV = 'prod'
-    DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL',
-                                             'postgresql://localhost/example')
+#    DEBUG = False
+#    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL',
+#                                             'postgresql://localhost/example')
+    DB_NAME = 'dev.db'
+    # Put the db file in project root
+    DB_PATH = os.path.join(Config.PROJECT_ROOT, DB_NAME)
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///{0}'.format(DB_PATH)
+    CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(10 ** 6)
+
 
 
 class DevConfig(Config):

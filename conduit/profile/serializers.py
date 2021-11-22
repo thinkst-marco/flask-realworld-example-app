@@ -13,7 +13,7 @@ class ProfileSchema(Schema):
 
     @pre_load
     def make_user(self, data, **kwargs):
-        return data['profile']
+        return data.get('profile', data)
 
     @post_dump
     def dump_user(self, data, **kwargs):

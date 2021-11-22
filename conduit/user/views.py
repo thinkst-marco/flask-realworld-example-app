@@ -50,6 +50,8 @@ def get_user():
     return current_user
 
 
+#@marshal_with(user_schema)
+
 @blueprint.route('/api/user', methods=('PUT',))
 @jwt_required
 @use_kwargs(user_schema)

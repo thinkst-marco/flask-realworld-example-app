@@ -6,8 +6,8 @@ from marshmallow import Schema, fields, pre_load, post_dump
 class UserSchema(Schema):
     username = fields.Str()
     email = fields.Email()
-    password = fields.Str(load_only=True)
-    bio = fields.Str()
+    password = fields.Str(load_only=True, allow_none=True)
+    bio = fields.Str(allow_none=True)
     image = fields.Url()
     token = fields.Str(dump_only=True)
     createdAt = fields.DateTime(attribute='created_at', dump_only=True)
@@ -17,7 +17,7 @@ class UserSchema(Schema):
 
     @pre_load
     def make_user(self, data, **kwargs):
-        data = data['user']
+        data = data.get('user', data)
         # some of the frontends send this like an empty string and some send
         # null
         if not data.get('email', True):
